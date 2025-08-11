@@ -1,0 +1,94 @@
+---
+// 客服入口与学习群引导组件
+---
+
+<!-- 客服入口（醒目但合规） -->
+<div class="fixed bottom-8 right-8 z-40">
+  <!-- 客服悬浮按钮 -->
+  <button id="service-btn" class="bg-blue-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-xl hover:bg-blue-700 transition">
+    💬 客服
+  </button>
+  
+  <!-- 客服弹窗（合规话术） -->
+  <div id="service-modal" class="hidden absolute bottom-20 right-0 w-80 bg-white rounded-lg shadow-xl p-4 border border-gray-200">
+    <h3 class="font-semibold text-gray-800 mb-2">投资者教育客服</h3>
+    <p class="text-sm text-gray-600 mb-3">
+      您好！我们提供工具使用指导和投资知识答疑，不推荐股票、不提供交易建议哦~<br/>
+      客服工作时间: 9:00-18:00 (工作日)
+    </p>
+    <div class="space-y-2">
+      <button class="w-full py-2 bg-gray-100 text-gray-800 rounded hover:bg-gray-200 text-sm">
+        工具使用问题
+      </button>
+      <button class="w-full py-2 bg-gray-100 text-gray-800 rounded hover:bg-gray-200 text-sm">
+        课程内容咨询
+      </button>
+      <button class="w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm" id="group-guide-btn">
+        加入投资者教育交流群
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- 学习群引导弹窗 -->
+<div id="group-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-lg w-full max-w-md p-6">
+    <h3 class="text-xl font-bold text-gray-800 mb-4">投资者教育交流群</h3>
+    <div class="text-sm text-gray-600 mb-4">
+      <p>✅ 群内提供：投资知识干货、工具使用指南、风险防范案例</p>
+      <p>❌ 禁止：推荐股票、承诺收益、诱导交易（违规即踢）</p>
+    </div>
+    <!-- 合规群链接（飞书/企业微信外部群） -->
+    <div class="mb-4">
+      <a href="https://example.com/group" target="_blank" class="block w-full py-3 bg-blue-600 text-white text-center rounded hover:bg-blue-700">
+        点击加入交流群
+      </a>
+    </div>
+    <!-- 网盘资源引导（合规知识包） -->
+    <div class="text-xs text-gray-500">
+      入群可领取：<a href="https://pan.baidu.com/s/xxxx" class="text-blue-600 hover:underline">《散户必学：100个投资防坑案例》</a>（仅含公开知识）
+    </div>
+    <button id="close-modal" class="mt-4 text-gray-500 hover:text-gray-700">关闭</button>
+  </div>
+</div>
+
+<script>
+// 客服弹窗控制
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    const serviceBtn = document.getElementById('service-btn');
+    const serviceModal = document.getElementById('service-modal');
+    const groupGuideBtn = document.getElementById('group-guide-btn');
+    const groupModal = document.getElementById('group-modal');
+    const closeModal = document.getElementById('close-modal');
+
+    if (serviceBtn && serviceModal) {
+      serviceBtn.addEventListener('click', () => {
+        serviceModal.classList.toggle('hidden');
+      });
+    }
+
+    // 点击页面其他区域关闭弹窗
+    document.addEventListener('click', (e) => {
+      if (serviceModal && !serviceModal.classList.contains('hidden') &&
+          !serviceBtn.contains(e.target) && !serviceModal.contains(e.target)) {
+        serviceModal.classList.add('hidden');
+      }
+    });
+
+    // 群引导弹窗控制
+    if (groupGuideBtn && serviceModal && groupModal) {
+      groupGuideBtn.addEventListener('click', () => {
+        serviceModal.classList.add('hidden');
+        groupModal.classList.remove('hidden');
+      });
+    }
+
+    if (closeModal && groupModal) {
+      closeModal.addEventListener('click', () => {
+        groupModal.classList.add('hidden');
+      });
+    }
+  });
+}
+</script>

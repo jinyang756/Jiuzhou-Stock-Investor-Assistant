@@ -1,0 +1,29 @@
+{
+  "date": "2025/8/10",
+  "shanghai": {
+    "name": "上证指数",
+    "point": "3635.1281",
+    "change": "-4.5385",
+    "changeRate": "-0.12"
+  },
+  "shenzhen": {
+    "name": "深证成指",
+    "point": "11128.67",
+    "change": "-29.268",
+    "changeRate": "-0.26"
+  },
+  "gem": {
+    "name": "创业板指",
+    "point": "2333.96",
+    "change": "-8.902",
+    "changeRate": "-0.38"
+  },
+  "northCapital": {
+    "netInflow": "0",
+    "netInflowRatio": "0",
+    "shNetInflow": "0",
+    "szNetInflow": "0",
+    "updateTime": "2025/8/10 06:01:02",
+    "note": "未配置Tushare Token"
+  }
+}

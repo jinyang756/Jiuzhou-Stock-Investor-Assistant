@@ -1,0 +1,174 @@
+---
+import Layout from '../layouts/Layout.astro';
+// 模拟数据 - 实际应用中将从数据库或API获取
+const articles = [
+  { id: 1, title: '股票术语详解：市盈率、市净率与股息率', category: '股票术语', views: '3.2千', image: '/assets/article1.jpg' },
+  { id: 2, title: 'K线图入门：认识各种K线形态及其含义', category: '技术指标', views: '2.8千', image: '/assets/article2.jpg' },
+  { id: 3, title: 'MACD指标详解：如何用MACD判断买卖点', category: '技术指标', views: '2.5千', image: '/assets/article3.jpg' },
+  { id: 4, title: '价值投资策略：如何寻找被低估的优质股票', category: '投资策略', views: '1.9千', image: '/assets/article4.jpg' },
+  { id: 5, title: '趋势投资实战：如何识别和跟随市场趋势', category: '投资策略', views: '1.7千', image: '/assets/article5.jpg' },
+  { id: 6, title: '股票技术分析：支撑位与阻力位的判断方法', category: '技术指标', views: '1.5千', image: '/assets/article6.jpg' },
+];
+---
+
+<Layout>
+	<section class="py-8 md:py-12">
+		<h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">教育中心</h1>
+		<p class="text-gray-600 mb-8">
+			股票术语、技术指标、投资策略，全面提升您的投资知识
+		</p>
+
+		<!-- 分类导航 -->
+		<div class="bg-white rounded-xl shadow-md p-6 mb-8">
+			<div class="flex overflow-x-auto pb-2 gap-4 hide-scrollbar">
+				<button class="whitespace-nowrap px-4 py-2 bg-blue-600 text-white rounded-lg font-medium">全部文章</button>
+				<button class="whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">股票术语</button>
+				<button class="whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">技术指标</button>
+				<button class="whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">投资策略</button>
+			</div>
+		</div>
+
+		<!-- 热门文章 -->
+		<div class="mb-12">
+			<h2 class="text-xl font-semibold text-gray-800 mb-6 flex items-center">
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+				</svg>
+				热门文章
+			</h2>
+
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				{articles.slice(0, 2).map((article) => (
+					<div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow flex flex-col md:flex-row">
+						<div class="md:w-1/3 h-48 md:h-auto bg-gray-200 flex items-center justify-center">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+							</svg>
+						</div>
+						<div class="p-6 md:w-2/3 flex flex-col justify-between">
+							<div>
+								<span class="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full mb-3">
+									{article.category}
+								</span>
+								<h3 class="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">{article.title}</h3>
+								<p class="text-gray-600 text-sm line-clamp-2 mb-4">
+									{article.title.includes('术语') ? '详细解释股票投资中的关键术语，帮助新手快速入门。' : 
+									 article.title.includes('技术') ? '深入解析各种技术指标的计算方法和应用场景，提升分析能力。' : 
+									 '分享专业投资策略，帮助投资者制定科学的投资计划和风险控制方案。'}
+								</p>
+							</div>
+							<div class="flex items-center justify-between">
+								<span class="text-gray-500 text-sm flex items-center">
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+									</svg>
+									{article.views}
+								</span>
+								<a href={`/education/${article.id}`} class="text-blue-600 text-sm font-medium hover:text-blue-800 transition-colors">
+									阅读全文 →
+								</a>
+							</div>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+
+		<!-- 最新文章 -->
+		<div class="mb-12">
+			<h2 class="text-xl font-semibold text-gray-800 mb-6 flex items-center">
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+				</svg>
+				最新文章
+			</h2>
+
+			<!-- 福利资料包 -->
+			<div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl shadow-lg p-6 mb-8 mt-12">
+				<h3 class="text-xl font-bold mb-4">限时免费资料包</h3>
+				<p class="mb-4">入群即可领取以下福利：</p>
+				<ul class="list-disc pl-6 space-y-2 mb-6">
+					<li>《MACD实战手册.pdf》（价值99元）</li>
+					<li>《本周涨停股复盘.xlsx》（每周更新）</li>
+					<li>私募大佬每周策略（百度网盘链接）</li>
+					<li>3分钟短视频课程包（含10+案例教学）</li>
+				</ul>
+				<p class="mb-4 font-medium">领取方式：</p>
+				<p class="flex items-center mb-6">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+					</svg>
+					联系客服，发送【入群】获取资料包提取码
+				</p>
+				<a href="/contact" class="inline-block bg-white text-blue-600 font-bold py-3 px-6 rounded-lg hover:bg-blue-50 transition-colors">
+					立即联系客服
+				</a>
+			</div>
+
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+				{articles.map((article) => (
+					<div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+						<div class="h-48 bg-gray-200 flex items-center justify-center">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+							</svg>
+						</div>
+						<div class="p-5">
+							<span class="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full mb-3">
+								{article.category}
+							</span>
+							<h3 class="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">{article.title}</h3>
+							<p class="text-gray-600 text-sm line-clamp-2 mb-4">
+								{article.title.includes('术语') ? '详细解释股票投资中的关键术语，帮助新手快速入门。' : 
+								 article.title.includes('技术') ? '深入解析各种技术指标的计算方法和应用场景，提升分析能力。' : 
+								 '分享专业投资策略，帮助投资者制定科学的投资计划和风险控制方案。'}
+							</p>
+							<div class="flex items-center justify-between">
+								<span class="text-gray-500 text-sm flex items-center">
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+									</svg>
+									{article.views}
+								</span>
+								<a href={`/education/${article.id}`} class="text-blue-600 text-sm font-medium hover:text-blue-800 transition-colors">
+									阅读全文 →
+								</a>
+							</div>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+
+		<!-- 转化区域 -->
+		<div class="bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl shadow-lg p-8 text-white text-center">
+			<h2 class="text-2xl font-bold mb-4">获取投资学习资料包</h2>
+			<p class="mb-6 max-w-2xl mx-auto">
+				添加客服微信，免费领取《股票投资必备术语手册》和《技术指标实战指南》
+			</p>
+			<div class="flex justify-center">
+				<a href="#contact" class="bg-white text-blue-700 px-8 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors shadow-md">
+					立即添加客服
+				</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.hide-scrollbar {
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+	.hide-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+	.line-clamp-2 {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+</style>

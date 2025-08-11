@@ -1,0 +1,76 @@
+---
+import Navbar from '../components/Navbar.astro';
+import ServiceChat from '../components/ServiceChat.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="九州投资教育 - 提供合规的投资知识和工具，不构成投资建议">
+  <meta name="keywords" content="投资教育,股票指标工具,投资者课程">
+  <title>{title} - 九州投资教育</title>
+  <!-- 合规风险提示元标签 -->
+  <meta name="robots" content="index, follow">
+  <style type="text/tailwindcss">
+    /* 所有工具类已在global.css中定义 */
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- 顶部风险提示条 -->
+  <div class="bg-yellow-50 border-b border-yellow-200 py-2">
+    <div class="container mx-auto px-4 flex justify-center items-center">
+      <span class="text-yellow-700 text-sm">⚠️ 风险提示：本网站仅提供投资知识和工具参考，不构成任何投资建议，股市有风险，投资需谨慎。</span>
+    </div>
+  </div>
+  
+  <Navbar />
+  
+  <main class="container mx-auto px-4 py-8 min-h-screen">
+    <slot />
+  </main>
+  
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-4">九州投资教育</h3>
+          <p class="text-gray-400 text-sm">专注于投资者教育，提供合规的投资知识和工具参考。</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">合规声明</h3>
+          <p class="text-gray-400 text-sm">
+            本网站内容仅供学习参考，不构成投资建议。
+            鄯善日斗投资咨询有限公司 版权所有
+          </p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">联系我们</h3>
+          
+        </div>
+      </div>
+      <div class="mt-8 pt-4 border-t border-gray-700 text-center text-gray-500 text-sm">
+        © 2025 九州投资教育 版权所有 | 合规提示：不荐股、不承诺收益
+      </div>
+    </div>
+  </footer>
+  
+  <!-- 客服组件 -->
+  <ServiceChat />
+  
+  <!-- Tidio客服脚本 (仅在有密钥时加载) -->
+  {
+    import.meta.env.TIDIO_PUBLIC_KEY && (
+      <script src={`https://code.tidio.co/${import.meta.env.TIDIO_PUBLIC_KEY}.js`} async></script>
+    )
+  }
+</body>
+</html>

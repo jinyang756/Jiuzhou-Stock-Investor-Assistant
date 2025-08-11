@@ -1,0 +1,20 @@
+{
+  "name": "jiuzhougroup.vip",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "九州投资教育平台",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/preact": "^4.1.0",
+    "@astrojs/tailwind": "^6.0.2",
+    "astro": "^4.10.2",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "preact": "^10.27.0",
+    "tailwindcss": "^3.4.17"
+  }
+}

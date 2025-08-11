@@ -1,0 +1,8 @@
+@layer utilities {
+  .content-auto {
+    content-visibility: auto;
+  }
+  .risk-badge {
+    @apply bg-red-50 text-red-600 text-xs px-2 py-1 rounded inline-flex items-center;
+  }
+}

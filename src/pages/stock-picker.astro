@@ -1,0 +1,63 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StockSelector from '../components/StockSelector.astro';
+---
+
+<Layout>
+	<section class="py-8 md:py-12">
+		<h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">智能选股器</h1>
+		<p class="text-gray-600 mb-8">
+			根据您的需求筛选优质股票，结合技术面与基本面分析，助您精准把握投资机会
+		</p>
+
+		<!-- 使用StockSelector组件 -->
+		<StockSelector />
+
+		<!-- 转化提示 -->
+		<div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg mb-8 mt-8">
+			<div class="flex">
+				<div class="flex-shrink-0">
+					<svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+					</svg>
+				</div>
+				<div class="ml-3">
+					<p class="text-sm text-yellow-700">
+						想获取完整业绩预增股名单和深度分析？添加客服微信，回复【业绩】即可免费领取
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+		<!-- 转化提示 -->
+		<div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg mb-8">
+			<div class="flex">
+				<div class="flex-shrink-0">
+					<svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+					</svg>
+				</div>
+				<div class="ml-3">
+					<p class="text-sm text-yellow-700">
+						想获取完整业绩预增股名单和深度分析？添加客服微信，回复【业绩】即可免费领取
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<script>
+	// 简单的筛选功能示例
+	const eventFilter = document.getElementById('event-filter') as HTMLSelectElement;
+if (eventFilter) {
+		eventFilter.addEventListener('change', function() {
+			const selectedEvent = this.value;
+			console.log('筛选事件:', selectedEvent);
+			// 实际应用中，这里会根据选择的事件过滤股票
+			// 并重新渲染表格
+		});
+	}
+</script>

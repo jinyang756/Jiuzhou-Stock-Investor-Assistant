@@ -1,0 +1,82 @@
+[
+  {
+    "code": "600000",
+    "name": "浦发银行",
+    "pe": 6.2,
+    "turnover": 1.5,
+    "marketCap": "large",
+    "industry": "金融"
+  },
+  {
+    "code": "000858",
+    "name": "五粮液",
+    "pe": 28.5,
+    "turnover": 2.3,
+    "marketCap": "large",
+    "industry": "消费"
+  },
+  {
+    "code": "300750",
+    "name": "宁德时代",
+    "pe": 45.1,
+    "turnover": 3.8,
+    "marketCap": "large",
+    "industry": "制造业"
+  },
+  {
+    "code": "002415",
+    "name": "海康威视",
+    "pe": 22.3,
+    "turnover": 1.9,
+    "marketCap": "mid",
+    "industry": "信息技术"
+  },
+  {
+    "code": "601318",
+    "name": "中国平安",
+    "pe": 9.8,
+    "turnover": 0.8,
+    "marketCap": "large",
+    "industry": "金融"
+  },
+  {
+    "code": "000333",
+    "name": "美的集团",
+    "pe": 15.6,
+    "turnover": 1.2,
+    "marketCap": "large",
+    "industry": "制造业"
+  },
+  {
+    "code": "600519",
+    "name": "贵州茅台",
+    "pe": 32.4,
+    "turnover": 0.5,
+    "marketCap": "large",
+    "industry": "消费"
+  },
+  {
+    "code": "300122",
+    "name": "智飞生物",
+    "pe": 38.7,
+    "turnover": 4.2,
+    "marketCap": "mid",
+    "industry": "医药生物"
+  },
+  {
+    "code": "002594",
+    "name": "比亚迪",
+    "pe": 65.3,
+    "turnover": 5.1,
+    "marketCap": "large",
+    "industry": "制造业"
+  },
+  {
+    "code": "600036",
+    "name": "招商银行",
+    "pe": 10.2,
+    "turnover": 1.1,
+    "marketCap": "large",
+    "industry": "金融"
+  }
+]
