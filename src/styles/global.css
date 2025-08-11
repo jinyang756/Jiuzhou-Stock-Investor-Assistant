@@ -1,6 +1,7 @@
 /* 导入自定义工具类 */
 @import './utilities.css';
 
+/*! tailwindcss v3.x.x | MIT License | https://tailwindcss.com */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

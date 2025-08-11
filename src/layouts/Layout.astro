@@ -63,8 +63,22 @@ const { title } = Astro.props;
     </div>
   </footer>
   
-  <!-- 客服组件 -->
-  <ServiceChat />
+  <!-- 客服组件容器 - 并列显示 -->
+  <div class="flex gap-4 justify-center py-4">
+    <!-- 客服组件 -->
+    <ServiceChat />
+  
+    <!-- 延迟加载聊天插件：用户滑动页面时加载 -->
+    <div>
+      <script>
+        window.addEventListener('scroll', () => {
+          const script = document.createElement('script');
+          script.src = 'https://plugin-code.salesmartly.com/js/project_420571_432727_1754890534.js';
+          document.body.appendChild(script);
+        }, { once: true }); // 只加载一次
+      </script>
+    </div>
+  </div>
   
   <!-- Tidio客服脚本 (仅在有密钥时加载) -->
   {

@@ -3,14 +3,14 @@
 ---
 
 <!-- 客服入口（醒目但合规） -->
-<div class="fixed bottom-8 right-8 z-40">
+<div class="fixed bottom-8 left-8 z-40">
   <!-- 客服悬浮按钮 -->
   <button id="service-btn" class="bg-blue-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-xl hover:bg-blue-700 transition">
     💬 客服
   </button>
   
   <!-- 客服弹窗（合规话术） -->
-  <div id="service-modal" class="hidden absolute bottom-20 right-0 w-80 bg-white rounded-lg shadow-xl p-4 border border-gray-200">
+  <div id="service-modal" class="hidden absolute bottom-20 left-0 w-80 bg-white rounded-lg shadow-xl p-4 border border-gray-200">
     <h3 class="font-semibold text-gray-800 mb-2">投资者教育客服</h3>
     <p class="text-sm text-gray-600 mb-3">
       您好！我们提供工具使用指导和投资知识答疑，不推荐股票、不提供交易建议哦~<br/>
@@ -70,9 +70,13 @@ if (typeof document !== 'undefined') {
 
     // 点击页面其他区域关闭弹窗
     document.addEventListener('click', (e) => {
-      if (serviceModal && !serviceModal.classList.contains('hidden') &&
-          !serviceBtn.contains(e.target) && !serviceModal.contains(e.target)) {
-        serviceModal.classList.add('hidden');
+      // 检查serviceBtn和serviceModal是否存在
+      if (serviceBtn && serviceModal && !serviceModal.classList.contains('hidden')) {
+        // 确保e.target是Node类型
+        const target = e.target as Node;
+        if (!serviceBtn.contains(target) && !serviceModal.contains(target)) {
+          serviceModal.classList.add('hidden');
+        }
       }
     });
 
