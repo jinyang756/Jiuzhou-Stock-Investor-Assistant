@@ -7,6 +7,7 @@ export default defineConfig({
     preact(),
     tailwind({
       applyBaseStyles: false,
+      config: { path: './src/styles/tailwind.css' },
     }),
   ],
 });
