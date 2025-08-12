@@ -22,7 +22,7 @@
     "NODE_ENV": "production",
     "ASTRO_TELEMETRY_DISABLED": "1"
   },
-  "buildEnvironment": {
+  "environment": {
     "CI": "true"
   }
 }
