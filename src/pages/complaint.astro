@@ -1,0 +1,318 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// 定义页面Props类型
+interface Props {
+  title?: string;
+}
+
+const { title = '投诉反馈 - 内循环系统' } = Astro.props as Props;
+---
+
+<Layout title={title}>
+    <!-- 页面标题区 -->
+    <div class="max-w-3xl mx-auto py-8 px-4">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-blue-400 mb-2">投诉反馈</h1>
+            <p class="text-gray-300">请详细描述您遇到的问题，我们会尽快处理</p>
+            <p class="text-xs text-gray-500 mt-1">（内循环系统：所有数据仅保存在本地浏览器）</p>
+        </div>
+
+        <!-- 投诉表单 -->
+        <div class="bg-white/5 backdrop-blur-sm p-6 rounded-xl mb-10">
+            <form id="complaintForm" class="space-y-6">
+                <!-- 投诉类型 -->
+                <div>
+                    <label class="block text-sm font-medium mb-2">投诉类型 <span class="text-red-400">*</span></label>
+                    <select 
+                        name="complaintType" 
+                        required
+                        class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                        <option value="">请选择投诉类型</option>
+                        <option value="service">服务态度问题</option>
+                        <option value="content">内容错误或违规</option>
+                        <option value="function">功能故障或bug</option>
+                        <option value="advice">改进建议</option>
+                        <option value="other">其他问题</option>
+                    </select>
+                </div>
+
+                <!-- 投诉内容 -->
+                <div>
+                    <label class="block text-sm font-medium mb-2">问题描述 <span class="text-red-400">*</span></label>
+                    <textarea 
+                        name="description" 
+                        rows="5" 
+                        required
+                        placeholder="请详细描述您遇到的问题，包括时间、具体场景等信息..."
+                        class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                    ></textarea>
+                </div>
+
+                <!-- 截图上传 -->
+                <div>
+                    <label class="block text-sm font-medium mb-2">上传截图（可选）</label>
+                    <div class="flex flex-wrap gap-3">
+                        <!-- 上传按钮 -->
+                        <div class="w-20 h-20 border-2 border-dashed border-gray-600 rounded-lg flex items-center justify-center cursor-pointer hover:border-blue-500 transition-colors group">
+                            <input 
+                                type="file" 
+                                id="screenshotUpload" 
+                                accept="image/*" 
+                                multiple
+                                class="hidden"
+                                onchange="previewImages(event)"
+                            />
+                            <label for="screenshotUpload" class="text-center">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mx-auto mb-1 group-hover:text-blue-400 transition-colors">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="17 8 12 3 7 8"/>
+                                    <line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                                <span class="text-sm">点击上传</span>
+                            </label>
+                        </div>
+
+                        <!-- 图片预览区 -->
+                        <div id="imagePreviewContainer" class="flex flex-wrap gap-3"></div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">支持JPG、PNG格式，最多上传3张，单张不超过5MB</p>
+                </div>
+
+                <!-- 联系方式 -->
+                <div>
+                    <label class="block text-sm font-medium mb-2">联系方式（选填）</label>
+                    <input 
+                        type="text" 
+                        name="contact" 
+                        placeholder="请填写手机号或微信，方便反馈处理结果"
+                        class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                </div>
+
+                <!-- 提交按钮 -->
+                <div>
+                    <button 
+                        type="submit" 
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg transition-colors font-medium flex items-center justify-center gap-2"
+                    >
+                        <span>提交投诉</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="m5 12 14-7 14 7-14 7-14-7"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 投诉记录列表 -->
+        <div>
+            <h2 class="text-xl font-bold mb-4 text-blue-400 flex items-center gap-2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                </svg>
+                投诉记录（本地）
+            </h2>
+
+            <div id="complaintRecords" class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+                <!-- 记录将通过JS动态生成 -->
+                <div class="text-gray-400 text-center py-10" id="emptyState">
+                    暂无投诉记录
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 脚本逻辑 -->
+    <script>
+        // 定义投诉类型接口
+        interface Complaint {
+            type: 'service' | 'content' | 'function' | 'advice' | 'other';
+            description: string;
+            contact: string;
+            images: string[];
+            timestamp: number;
+        }
+
+        // 页面加载时显示历史投诉记录
+        document.addEventListener('DOMContentLoaded', () => {
+            loadComplaintRecords();
+        });
+
+        // 图片预览功能
+        function previewImages(event: Event) {
+            const container = document.getElementById('imagePreviewContainer');
+            if (!container) return;
+
+            const target = event.target as HTMLInputElement | null;
+            if (!target) return;
+
+            const files = target.files;
+            if (!files) return;
+
+            // 限制最多3张图片
+            if (container.children.length + files.length > 3) {
+                alert('最多只能上传3张图片');
+                return;
+            }
+
+            // 显示新上传的图片
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewDiv = document.createElement('div');
+                    previewDiv.className = 'w-20 h-20 relative rounded-lg overflow-hidden border border-gray-600 group';
+                    previewDiv.innerHTML = `
+                        <img src="${e.target?.result}" class="w-full h-full object-cover" alt="投诉证据">
+                        <button type="button" class="absolute top-1 right-1 bg-black/70 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity" onclick="this.parentElement.remove()">
+                            ×
+                        </button>
+                    `;
+                    container.appendChild(previewDiv);
+                };
+                reader.readAsDataURL(file);
+            });
+
+            // 清空文件输入，允许重复选择相同文件
+            target.value = '';
+        }
+
+        // 加载历史投诉记录
+        function loadComplaintRecords() {
+            const recordsContainer = document.getElementById('complaintRecords');
+            const emptyState = document.getElementById('emptyState');
+            if (!recordsContainer || !emptyState) return;
+
+            const complaints = JSON.parse(localStorage.getItem('internalComplaints') || '[]') as Complaint[];
+
+            // 清空容器（保留emptyState）
+            while (recordsContainer.children.length > 1) {
+                const lastChild = recordsContainer.lastChild;
+                if (lastChild) {
+                    recordsContainer.removeChild(lastChild);
+                } else {
+                    break;
+                }
+            }
+
+            // 显示记录
+            if (complaints.length > 0) {
+                emptyState.style.display = 'none';
+
+                // 倒序显示（最新的在前面）
+                complaints.reverse().forEach((complaint, index) => {
+                    const recordDiv = document.createElement('div');
+                    recordDiv.className = 'bg-white/5 backdrop-blur-sm p-4 rounded-lg hover:bg-white/10 transition-colors';
+
+                    // 格式化日期
+                    const date = new Date(complaint.timestamp);
+                    const formattedDate = date.toLocaleString();
+
+                    // 构建图片预览HTML
+                    let imagesHtml = '';
+                    if (complaint.images && complaint.images.length > 0) {
+                        imagesHtml = `
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                ${complaint.images.map(img => `
+                                    <img src="${img}" class="w-16 h-16 object-cover rounded border border-gray-700" alt="证据图片">
+                                `).join('')}
+                            </div>
+                        `;
+                    }
+
+                    // 设置记录内容
+                    recordDiv.innerHTML = `
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="font-medium">投诉 #${complaints.length - index}</div>
+                            <div class="text-xs text-gray-400">${formattedDate}</div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-sm mb-2">
+                            <div>
+                                <span class="text-gray-400">类型：</span>
+                                <span>${getComplaintTypeName(complaint.type)}</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-400">状态：</span>
+                                <span class="text-yellow-400">待处理</span>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <p class="text-gray-300 text-sm">${complaint.description}</p>
+                        </div>
+                        ${imagesHtml}
+                        ${complaint.contact ? `<div class="text-xs text-gray-400 mt-2">联系方式：${complaint.contact}</div>` : ''}
+                    `;
+
+                    recordsContainer.appendChild(recordDiv);
+                });
+            } else {
+                emptyState.style.display = 'block';
+            }
+        }
+
+        // 获取投诉类型的显示名称
+        function getComplaintTypeName(type: string) {
+            const typeMap: Record<string, string> = {
+                'service': '服务态度问题',
+                'content': '内容错误或违规',
+                'function': '功能故障或bug',
+                'advice': '改进建议',
+                'other': '其他问题'
+            };
+            return typeMap[type] || type;
+        }
+
+        // 表单提交处理
+        const complaintForm = document.getElementById('complaintForm') as HTMLFormElement | null;
+        if (complaintForm) {
+            complaintForm.addEventListener('submit', function(e: SubmitEvent) {
+                e.preventDefault();
+
+                // 获取表单数据
+                const formData = new FormData(this);
+                const complaintType = formData.get('complaintType') as string | null;
+                const description = formData.get('description') as string | null;
+                const contact = formData.get('contact') as string | null || '';
+
+                if (!complaintType || !description) {
+                    alert('请填写必填字段');
+                    return;
+                }
+
+                // 收集图片
+                const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+                const imagePreviews = imagePreviewContainer?.querySelectorAll('img') || [];
+                const images = Array.from(imagePreviews).map(img => img.src);
+
+                // 创建投诉对象
+                const complaint: Complaint = {
+                    type: complaintType as 'service' | 'content' | 'function' | 'advice' | 'other',
+                    description,
+                    contact,
+                    images,
+                    timestamp: new Date().getTime()
+                };
+
+                // 保存到本地存储
+                const existingComplaints = JSON.parse(localStorage.getItem('internalComplaints') || '[]') as Complaint[];
+                existingComplaints.push(complaint);
+                localStorage.setItem('internalComplaints', JSON.stringify(existingComplaints));
+
+                // 重置表单
+                this.reset();
+                if (imagePreviewContainer) {
+                    imagePreviewContainer.innerHTML = '';
+                }
+
+                // 刷新记录列表
+                loadComplaintRecords();
+
+                // 显示成功提示
+                alert('投诉已提交，我们会尽快处理！');
+            });
+        }
+    </script>
+</Layout>
+    

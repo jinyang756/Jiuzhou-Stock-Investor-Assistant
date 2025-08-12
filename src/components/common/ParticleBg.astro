@@ -1,0 +1,38 @@
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'absolute';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.zIndex = '0';
+    canvas.style.opacity = '0.2';
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    
+    if (!ctx) return; // 检查 ctx 是否为 null
+    
+    // 粒子逻辑（简化版）
+    const particles = Array.from({ length: 200 }).map(() => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      size: Math.random() * 2 + 1,
+      speed: Math.random() * 0.5 + 0.1
+    }));
+    
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.y -= p.speed;
+        if (p.y < 0) p.y = window.innerHeight;
+        ctx.fillStyle = 'rgba(59, 130, 246, 0.8)';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      requestAnimationFrame(animate);
+    };
+    animate();
+  });
+</script>

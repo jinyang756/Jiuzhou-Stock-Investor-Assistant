@@ -1,0 +1,19 @@
+name: 每日更新市场数据
+on:
+  schedule:
+    - cron: '30 0 * * *' # 北京时间8:30执行
+  workflow_dispatch: # 允许手动触发
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm install
+      - run: node src/scripts/fetch-sina-data.js
+      - run: |
+          git config --global user.name "AutoDataBot"
+          git add public/data/sina-market-data.json
+          git commit -m "自动更新数据（$(date +'%Y-%m-%d')）"
+          git push

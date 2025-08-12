@@ -1,118 +1,111 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Welcome from '../components/Welcome.astro';
+import IndexCard from '../components/market/IndexCard.astro';
+import StockPicker from '../components/market/StockPicker.astro';
+import CustomerService from '../components/common/CustomerService.astro';
+import FloatingButton from '../components/common/FloatingButton.astro';
+import ComplaintEntry from '../components/common/ComplaintEntry.astro';
+
+// 加载市场数据（处理可能的加载失败）
+let marketData;
+try {
+  marketData = await import('../../public/data/sina-market-data.json');
+  // 确保数据结构完整
+  if (!marketData.sh || !marketData.north) {
+    throw new Error('数据结构不完整');
+  }
+} catch (error) {
+  console.warn('数据加载失败，使用默认数据:', error instanceof Error ? error.message : String(error));
+  // 提供默认数据，避免页面空白
+  marketData = {
+    sh: { index: 3285.67, change: 26.83 },
+    north: { netInflow: 52.3, rate: '3.2%' },
+    limitUp: 48,
+    updateTime: new Date().toLocaleTimeString()
+  };
+}
 ---
 
-<Layout title="首页">
-  <Welcome />
-  
-  <!-- 核心功能板块 -->
-  <section class="py-12">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl font-bold text-gray-800 mb-4">投资者教育工具平台</h2>
-      <p class="text-gray-600 max-w-2xl mx-auto">
-        提供合规的投资知识和工具参考，帮助投资者提升投资认知，防范投资风险
-      </p>
+<Layout title="九州股民助手 - 首页">
+  <!-- 顶部悬浮转化按钮 -->
+  <FloatingButton />
+
+  <!-- 页面标题区 -->
+  <section class="mb-10 text-center">
+    <h1 class="text-4xl font-bold mb-3 bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+      九州股民助手
+    </h1>
+    <p class="text-gray-300 max-w-2xl mx-auto">
+      提供专业的市场数据查询与投资者教育服务，助您把握市场动态
+    </p>
+    <p class="text-xs text-gray-500 mt-2">
+      数据更新时间: {marketData.updateTime}
+    </p>
+  </section>
+
+  <!-- 核心数据卡片区 -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold mb-6 text-blue-400">今日必看数据</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <IndexCard 
+        title="上证指数" 
+        value={marketData.sh.index.toFixed(2)} 
+        change={`${marketData.sh.change > 0 ? '+' : ''}${marketData.sh.change.toFixed(2)}点 (${(marketData.sh.change / (marketData.sh.index - marketData.sh.change) * 100).toFixed(2)}%)`} 
+        isRise={marketData.sh.change > 0} 
+      />
+      <IndexCard 
+        title="北向资金" 
+        value={`${marketData.north.netInflow > 0 ? '+' : ''}${marketData.north.netInflow}亿`} 
+        change={marketData.north.rate} 
+        isRise={marketData.north.netInflow > 0} 
+      />
+      <IndexCard 
+        title="涨停家数" 
+        value={`${marketData.limitUp}家`} 
+        change="较昨日+5" 
+        isRise={true} 
+      />
     </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <!-- 功能卡片1：指标筛选工具 -->
-      <a href="/stock-picker" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
-        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-          <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-          </svg>
-        </div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">指标筛选工具</h3>
-        <p class="text-gray-600 text-sm">
-          基于公开市场数据，提供市盈率、换手率等指标筛选功能，辅助您的投资研究
+  </section>
+
+  <!-- 选股工具区 -->
+  <section class="mb-12 bg-white/5 backdrop-blur-sm p-6 rounded-xl">
+    <h2 class="text-2xl font-bold mb-6 text-blue-400">爆款选股工具</h2>
+    <StockPicker />
+  </section>
+
+  <!-- 免费课程区 -->
+  <section class="mb-12 bg-white/5 backdrop-blur-sm p-6 rounded-xl">
+    <h2 class="text-2xl font-bold mb-6 text-blue-400">3分钟学会看成交量</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+      <div>
+        <img 
+          src="https://picsum.photos/600/400" 
+          alt="成交量分析示例图" 
+          class="rounded-lg w-full h-auto"
+        />
+      </div>
+      <div>
+        <p class="text-gray-300 mb-4">
+          成交量突然放大意味着什么？如何通过成交量判断主力动向？<br><br>
+          本课程将通过3个实际案例，教您快速掌握成交量与股价走势的关系，识别买卖信号。
         </p>
-      </a>
-      
-      <!-- 功能卡片2：投资者课程 -->
-      <a href="/courses" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
-        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
-          <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-          </svg>
-        </div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">投资者课程</h3>
-        <p class="text-gray-600 text-sm">
-          基础投资知识课程，涵盖交易规则、指标解读和风险防范，提升您的投资认知
-        </p>
-      </a>
-      
-      <!-- 功能卡片3：教育中心 -->
-      <a href="/education" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
-        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-          <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
-          </svg>
-        </div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">教育中心</h3>
-        <p class="text-gray-600 text-sm">
-          投资风险提示、市场规则解读和投资者权益保护知识，助您理性投资
-        </p>
-      </a>
-      
-      <!-- 功能卡片4：交流群 -->
-      <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
-        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mb-4">
-          <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path>
-          </svg>
-        </div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">交流社群</h3>
-        <p class="text-gray-600 text-sm mb-4">
-          加入投资者教育交流群，获取更多投资知识和工具使用指南
-        </p>
-        <button id="join-group-btn" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-          立即加入 →
-        </button>
+        <a href="/education" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors">
+          观看课程 →
+        </a>
       </div>
     </div>
   </section>
-  
-  <!-- 合规声明板块 -->
-  <section class="py-10 bg-gray-100">
-    <div class="container mx-auto px-4">
-      <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">合规声明</h2>
-      <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow">
-        <ul class="space-y-3 text-gray-700">
-          <li class="flex items-start">
-            <span class="text-red-500 mr-2">•</span>
-            <span>本网站仅提供投资知识和工具参考，不构成任何投资建议、投资咨询或交易要约。</span>
-          </li>
-          <li class="flex items-start">
-            <span class="text-red-500 mr-2">•</span>
-            <span>股票投资有风险，投资者应自主决策，自担风险。</span>
-          </li>
-          <li class="flex items-start">
-            <span class="text-red-500 mr-2">•</span>
-            <span>网站数据来源于公开市场信息整理，仅供学习参考，不保证数据的准确性和完整性。</span>
-          </li>
-          <li class="flex items-start">
-            <span class="text-red-500 mr-2">•</span>
-            <span>运营主体：日斗投资咨询有限公司，经营范围以营业执照为准。</span>
-          </li>
-        </ul>
-      </div>
-    </div>
+
+  <!-- 投资顾问区 -->
+  <section class="mb-12">
+    <CustomerService />
+    <ComplaintEntry />
+  </section>
+
+  <!-- 合规声明区 -->
+  <section class="text-center text-xs text-gray-500 py-6 border-t border-gray-800">
+    <p>⚠️ 风险提示：本平台仅提供投资者教育服务，所有数据仅供参考，不构成任何投资建议</p>
+    <p class="mt-2">股市有风险，投资需谨慎 | 九州股民助手 © 2023 版权所有</p>
   </section>
 </Layout>
-
-<script>
-  // 加入群聊按钮事件
-  document.addEventListener('DOMContentLoaded', () => {
-    const joinGroupBtn = document.getElementById('join-group-btn');
-    if (joinGroupBtn) {
-      joinGroupBtn.addEventListener('click', () => {
-        // 触发客服组件中的群聊弹窗
-        const groupModal = document.getElementById('group-modal');
-        if (groupModal) {
-          groupModal.classList.remove('hidden');
-        }
-      });
-    }
-  });
-</script>

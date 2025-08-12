@@ -1,0 +1,12 @@
+{
+  "sh": {
+    "index": 3666.3262,
+    "change": 18.7795
+  },
+  "north": {
+    "netInflow": 52.3,
+    "rate": "3.2%"
+  },
+  "limitUp": 0,
+  "updateTime": "11:56:15"
+}
